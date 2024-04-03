@@ -1,22 +1,18 @@
-.limit-input-container {
-  margin-left: auto;
-  margin-top: 16px;
+div {
+  margin-bottom: 10px;
+}
+label {
+  font-weight: bold;
 }
 
-.limit-input-container label {
-  font-size: 16px;
-  color: rgb(33, 37, 41);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+input[type="number"] {
+  width: 60px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
-
-.limit-input-container input {
-  font-size: 16px;
-  padding: 4px;
-  border: 1px solid rgb(222, 226, 230);
-  color: rgb(33, 37, 41);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+input[type="number"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }

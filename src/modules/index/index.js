@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import axios from "axios";
-import { apiHeaders, apiUrl } from "../../common/constants/index";
 import Search from "../searchBox/SearchBox";
 import CustomTable from "../table/table";
 import Pagination from "../pagination/pagination";
@@ -11,7 +10,6 @@ import { useDebounce } from "../../hooks/useDebounce";
 const SearchPlaces = () => {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
-  const [debounceLimit, setDebounceLimit] = useState("");
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -22,17 +20,20 @@ const SearchPlaces = () => {
   const getTableData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(apiUrl.GET_CITIES, {
-        params: {
-          namePrefix: optimized,
-          limit: inputLimit,
-          offset: (currentPage - 1) * inputLimit,
-        },
-        headers: {
-          [apiHeaders.RAPIDAPI_KEY]: process.env.REACT_APP_RAPIDAPI_KEY,
-          [apiHeaders.RAPIDAPI_HOST]: process.env.REACT_APP_RAPIDAPI_HOST,
-        },
-      });
+      const response = await axios.get(
+        "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
+        {
+          params: {
+            namePrefix: optimized,
+            limit: inputLimit,
+            offset: (currentPage - 1) * inputLimit,
+          },
+          headers: {
+            ["x-rapidapi-key"]: "x-rapidapi-key",
+            ["x-rapidapi-host"]: "x-rapidapi-host",
+          },
+        }
+      );
       setData(response.data.data);
       setTotalPages(Math.ceil(response.data.metadata.totalCount / inputLimit));
     } catch (error) {
@@ -41,9 +42,7 @@ const SearchPlaces = () => {
     setLoading(false);
   };
 
- 
   const handleSearch = (e) => {
-    // debouncedSearch(e.target.value);
     setSearch(e.target.value);
     setCurrentPage(1);
   };
@@ -77,7 +76,10 @@ const SearchPlaces = () => {
 
   return (
     <div className="wrapper">
-      <Search onSearch={handleSearch} search={search} />
+      <div className="limit">
+        <Search onSearch={handleSearch} search={search} />
+        <LimitInput limit={inputLimit} onChange={handleLimitChange} />
+      </div>
       <CustomTable data={data} loading={loading} />
       <div className="pagination">
         {!loading && data.length > 0 && (
@@ -87,9 +89,6 @@ const SearchPlaces = () => {
             onPageChange={handlePageChange}
           />
         )}
-        <div className="limit">
-          <LimitInput limit={inputLimit} onChange={handleLimitChange} />
-        </div>
       </div>
     </div>
   );

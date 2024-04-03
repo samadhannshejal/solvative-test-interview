@@ -1,7 +1,10 @@
 .wrapper {
   padding: 10px;
 }
-
+.limit{
+  display: flex;
+  justify-content: space-between;
+}
 .pagination {
   display: flex;
   flex-direction: row;
