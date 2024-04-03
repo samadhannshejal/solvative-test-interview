@@ -6,19 +6,18 @@ import Search from "../searchBox/SearchBox";
 import CustomTable from "../table/table";
 import Pagination from "../pagination/pagination";
 import LimitInput from "../limitInput/limitInput";
-import { useDebouncedCallback } from "use-debounce";
 import { useDebounce } from "../../hooks/useDebounce";
 
 const SearchPlaces = () => {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
-  const [debounceValue, setDebounceValue] = useState("");
   const [debounceLimit, setDebounceLimit] = useState("");
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [inputLimit, setInputLimit] = useState(10);
   const { optimized } = useDebounce(search, 500);
+
   console.log(optimized);
   const getTableData = async () => {
     setLoading(true);
@@ -42,16 +41,7 @@ const SearchPlaces = () => {
     setLoading(false);
   };
 
-  const debouncedSearch = useDebouncedCallback((value) => {
-    setCurrentPage(1);
-    setDebounceValue(value);
-  }, 500);
-
-  const debouncedLimit = useDebouncedCallback((value) => {
-    setCurrentPage(1);
-    setDebounceLimit(value);
-  }, 500);
-
+ 
   const handleSearch = (e) => {
     // debouncedSearch(e.target.value);
     setSearch(e.target.value);
@@ -63,7 +53,6 @@ const SearchPlaces = () => {
   };
 
   const handleLimitChange = (value) => {
-    debouncedLimit(value);
     setInputLimit(value);
   };
 
@@ -76,7 +65,7 @@ const SearchPlaces = () => {
 
   useEffect(() => {
     getTableData();
-  }, [currentPage,debounceLimit, optimized]);
+  }, [currentPage, inputLimit, optimized]);
 
   //to activate input box on click of 'CTRL+/'
   useEffect(() => {
