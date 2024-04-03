@@ -9,7 +9,7 @@ const Search = ({ onSearch, search }) => {
         id="search-input"
         value={search}
         onChange={onSearch}
-        placeholder="Start searching"
+        placeholder="Search Place Here..."
         className="search-input"
       />
       <span className="keyboard-shortcut">CTRL + /</span>

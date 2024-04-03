@@ -7,6 +7,7 @@ import CustomTable from "../table/table";
 import Pagination from "../pagination/pagination";
 import LimitInput from "../limitInput/limitInput";
 import { useDebouncedCallback } from "use-debounce";
+import { useDebounce } from "../../hooks/useDebounce";
 
 const SearchPlaces = () => {
   const [search, setSearch] = useState("");
@@ -16,14 +17,15 @@ const SearchPlaces = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [inputLimit, setInputLimit] = useState(3);
-
+  const [inputLimit, setInputLimit] = useState(10);
+  const { optimized } = useDebounce(search, 500);
+  console.log(optimized);
   const getTableData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(apiUrl.GET_CITIES, {
         params: {
-          namePrefix: search,
+          namePrefix: optimized,
           limit: inputLimit,
           offset: (currentPage - 1) * inputLimit,
         },
@@ -51,7 +53,7 @@ const SearchPlaces = () => {
   }, 500);
 
   const handleSearch = (e) => {
-    debouncedSearch(e.target.value);
+    // debouncedSearch(e.target.value);
     setSearch(e.target.value);
     setCurrentPage(1);
   };
@@ -74,9 +76,9 @@ const SearchPlaces = () => {
 
   useEffect(() => {
     getTableData();
-  }, [currentPage, debounceLimit, debounceValue]);
+  }, [currentPage,debounceLimit, optimized]);
 
-  //to activate input box on click of 'CTRL+/' 
+  //to activate input box on click of 'CTRL+/'
   useEffect(() => {
     document.addEventListener("keydown", handleFocusShortcut);
     return () => {
@@ -96,7 +98,9 @@ const SearchPlaces = () => {
             onPageChange={handlePageChange}
           />
         )}
-        <LimitInput limit={inputLimit} onChange={handleLimitChange} />
+        <div className="limit">
+          <LimitInput limit={inputLimit} onChange={handleLimitChange} />
+        </div>
       </div>
     </div>
   );
