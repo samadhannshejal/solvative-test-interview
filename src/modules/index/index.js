@@ -6,6 +6,7 @@ import CustomTable from "../table/table";
 import Pagination from "../pagination/pagination";
 import LimitInput from "../limitInput/limitInput";
 import { useDebounce } from "../../hooks/useDebounce";
+import { apiHeaders, apiUrl } from "../../constants";
 
 const SearchPlaces = () => {
   const [search, setSearch] = useState("");
@@ -21,7 +22,7 @@ const SearchPlaces = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
+        apiUrl.GET_CITIES,
         {
           params: {
             namePrefix: optimized,
@@ -29,8 +30,8 @@ const SearchPlaces = () => {
             offset: (currentPage - 1) * inputLimit,
           },
           headers: {
-            ["x-rapidapi-key"]: "x-rapidapi-key",
-            ["x-rapidapi-host"]: "x-rapidapi-host",
+            [apiHeaders.RAPIDAPI_KEY]:process.env.REACT_APP_RAPIDAPI_KEY,
+            [apiHeaders.RAPIDAPI_HOST]: process.env.REACT_APP_RAPIDAPI_HOST,
           },
         }
       );
