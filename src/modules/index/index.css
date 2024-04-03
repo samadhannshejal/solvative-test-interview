@@ -1,0 +1,11 @@
+.wrapper {
+  padding: 10px;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+}
