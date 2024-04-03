@@ -34,7 +34,7 @@ const SearchPlaces = () => {
     setInputLimit(value);
   };
 
-  const handleFocusShortcut = (event) => {
+  const handleKeyboardShortCut = (event) => {
     if ((event.ctrlKey || event.metaKey) && event.key === "/") {
       event.preventDefault();
       document.getElementById("search-input").focus();
@@ -43,9 +43,9 @@ const SearchPlaces = () => {
 
   //to activate input box on click of 'CTRL+/'
   useEffect(() => {
-    document.addEventListener("keydown", handleFocusShortcut);
+    document.addEventListener("keydown", handleKeyboardShortCut);
     return () => {
-      document.removeEventListener("keydown", handleFocusShortcut);
+      document.removeEventListener("keydown", handleKeyboardShortCut);
     };
   }, []);
 
