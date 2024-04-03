@@ -1,12 +1,12 @@
 import React from "react";
 import "./Table.css";
-import Spinner from "../spinner/Spinner";
+import Loader from "../loader/Loader";
 
 const CustomTable = ({ data, loading }) => {
   return (
     <div className="table-container">
       {loading ? (
-        <Spinner />
+        <Loader />
       ) : (
         <>
           {data.length === 0 ? (
